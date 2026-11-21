@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wie lerne ich?</title>
+<style>
+:root{
+  --cream:#EDEFF2;--paper:#FFFFFF;--ink:#23272E;--soft:#5B6470;
+  --line:#DDE1E7;--terra:#0E8C9A;--ts:#13A6B6;--sage:#0E8C9A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Iowan Old Style',Palatino,Georgia,serif;background:var(--cream);color:var(--ink);line-height:1.55;padding:0 0 80px;-webkit-font-smoothing:antialiased}
+.wrap{max-width:780px;margin:0 auto;padding:0 22px}
+.display{font-family:ui-sans-serif,system-ui,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.ey{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--terra);font-weight:700;font-family:ui-sans-serif,system-ui,sans-serif}
+header{padding:54px 0 30px;text-align:center}
+header h1{font-size:clamp(2rem,6vw,3rem);margin:14px 0 12px}
+header p{color:var(--soft);max-width:60ch;margin:0 auto;font-size:1.06rem}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:26px 24px;box-shadow:0 1px 2px rgba(43,38,34,.06),0 8px 24px rgba(43,38,34,.06);margin:18px 0}
+.note{background:rgba(94,122,111,.08);border-left:3px solid var(--sage);border-radius:8px;padding:14px 16px;font-size:.92rem;color:var(--soft);margin:16px 0}
+.note strong{color:var(--ink)}
+.err{background:rgba(14,140,154,.08);border-left:3px solid var(--terra);border-radius:8px;padding:12px 16px;font-size:.9rem;color:var(--terra);margin:10px 0;display:none}
+.seg{display:inline-flex;background:var(--cream);border:1px solid var(--line);border-radius:999px;padding:4px;flex-wrap:wrap;gap:4px}
+.seg button{border:0;background:transparent;font-family:ui-sans-serif,system-ui,sans-serif;font-size:.88rem;color:var(--soft);padding:8px 16px;border-radius:999px;cursor:pointer;transition:.18s;white-space:nowrap}
+.seg button.active{background:var(--terra);color:#fff}
+.btn{font-family:ui-sans-serif,system-ui,sans-serif;font-weight:600;font-size:.95rem;border:0;border-radius:10px;padding:13px 26px;cursor:pointer;transition:.18s;display:inline-flex;align-items:center;gap:8px}
+.btn-p{background:var(--terra);color:#fff;box-shadow:0 2px 8px rgba(14,140,154,.3)}
+.btn-p:hover{background:#0B6E79}
+.btn-g{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.actions{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+.prog{height:5px;background:var(--line);border-radius:999px;overflow:hidden;margin:6px 0 26px}
+.prog>i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--terra),var(--ts));transition:width .3s}
+.q{margin-bottom:30px}
+.q .num{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ts);font-weight:700;font-family:ui-sans-serif,system-ui,sans-serif}
+.q .txt{font-size:1.15rem;margin:8px 0 16px;line-height:1.35}
+.likert{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.likert label{position:relative;cursor:pointer}
+.likert input{position:absolute;opacity:0;inset:0;cursor:pointer}
+.likert .dot{display:flex;align-items:center;justify-content:center;height:46px;border:1.5px solid var(--line);border-radius:9px;font-size:.85rem;color:var(--soft);background:var(--paper);transition:.15s;font-family:ui-sans-serif,system-ui,sans-serif}
+.likert input:checked+.dot{background:var(--terra);border-color:var(--terra);color:#fff;font-weight:700}
+.lik-leg{display:flex;justify-content:space-between;font-size:.74rem;color:var(--soft);margin-top:7px;font-family:ui-sans-serif,system-ui,sans-serif}
+.spider-wrap{display:flex;justify-content:center;margin:10px 0 4px;overflow:hidden}
+.spider-wrap svg{max-width:100%;height:auto}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:8px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}.likert .dot{height:42px;font-size:.78rem}.seg button{font-size:.8rem;padding:7px 11px}}
+.rec{border:1px solid var(--line);border-radius:12px;padding:16px 16px 16px 18px;background:var(--paper);position:relative;overflow:hidden}
+.rec::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--ac,var(--terra))}
+.rec h4{font-family:ui-sans-serif,system-ui,sans-serif;font-weight:700;font-size:1.04rem;margin:0 0 3px;display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.rec .lv{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;font-weight:700;font-family:ui-sans-serif,system-ui,sans-serif;color:var(--soft);white-space:nowrap}
+.rec p{font-size:.92rem;color:var(--soft);margin-top:5px}
+.sbar{height:6px;background:var(--line);border-radius:999px;margin:7px 0 9px;overflow:hidden}
+.sbar>i{display:block;height:100%;border-radius:999px}
+.rec .intro{font-size:.86rem;color:var(--ink);font-weight:600;margin:2px 0 8px;font-family:ui-sans-serif,system-ui,sans-serif}
+.tip{margin:0 0 11px;padding-left:14px;position:relative}
+.tip:last-of-type{margin-bottom:4px}
+.tip::before{content:"";position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--ac,var(--terra))}
+.tip .tx{font-size:.9rem;color:var(--soft);line-height:1.45}
+.tip details{margin:3px 0 0}
+.tip summary{font-size:.74rem;color:var(--ts);font-weight:600;font-family:ui-sans-serif,system-ui,sans-serif;list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:5px}
+.tip summary::-webkit-details-marker{display:none}
+.tip summary::before{content:"";width:7px;height:7px;border-radius:50%;display:inline-block}
+.tip summary[data-b="gut"]::before{background:#0E8C9A}
+.tip summary[data-b="kann"]::before{background:#13A6B6}
+.tip summary[data-b="test"]::before{background:#9CA3AF}
+.tip .warum{font-size:.78rem;color:var(--soft);margin-top:5px;padding:8px 10px;background:rgba(94,122,111,.07);border-radius:7px;line-height:1.4}
+.tip .bname{font-style:normal;font-weight:700}
+.lob{font-size:.95rem;color:var(--ink);margin-top:4px}
+.lob .plus{display:block;font-size:.88rem;color:var(--soft);margin-top:7px}
+.hilfe{margin-top:12px;padding:12px 14px;background:rgba(168,84,107,.08);border-left:3px solid #A8546B;border-radius:8px;font-size:.85rem;color:var(--ink);line-height:1.45}
+.hilfe strong{color:#8a3f54}
+footer{text-align:center;color:var(--soft);font-size:.82rem;margin-top:40px;padding:0 22px}
+details{margin:14px 0;font-size:.9rem}
+details summary{cursor:pointer;color:var(--terra);font-family:ui-sans-serif,system-ui,sans-serif;font-weight:600}
+details p{color:var(--soft);margin-top:8px}
+section[hidden]{display:none}
+</style>
+</head>
+<body>
+
+<header class="wrap">
+  <div class="ey">Lernstrategien-Reflexion · Klasse 5 – Oberstufe</div>
+  <h1 class="display">Wie lerne ich gerade?</h1>
+  <p>Eine Selbsteinschätzung zu deinen Lerngewohnheiten – und dazu konkrete Tipps.</p>
+</header>
+
+<main class="wrap">
+  <section id="s-intro">
+    <div class="card">
+      <p class="ey" style="color:var(--sage)">Bevor du startest</p>
+      <p style="margin-top:8px">Dieses Tool hilft dir, dir klarzumachen, <strong>wie du bisher lernst</strong> – also welche Lernstrategien du schon anwendest. Und es formuliert <strong>genau für dich</strong> Tipps und Anregungen, wie das noch besser gelingen kann.</p>
+      <div style="margin:22px 0 6px;display:flex;justify-content:center">
+        <div class="seg" id="stageBar">
+          <button data-stage="sek56">Klasse 5–6</button>
+          <button data-stage="sek78" class="active">Klasse 7–8</button>
+          <button data-stage="sek910">Klasse 9–10</button>
+          <button data-stage="sek2">Oberstufe</button>
+        </div>
+      </div>
+      <p style="text-align:center;font-size:.82rem;color:var(--soft);margin-top:4px">Sprache der Fragen passt sich an.</p>
+      <div class="actions" style="margin-top:22px">
+        <button class="btn btn-p" id="startBtn">Los geht's →</button>
+      </div>
+      <details>
+        <summary>Selbsteinschätzung??</summary>
+        <p>Ganz ehrlich: Wir alle schätzen uns manchmal anders ein, als wir wirklich handeln. Trotzdem kannst du das Ergebnis als <strong>Denkanstoß</strong> nutzen, um für eine Zeit etwas anderes zu probieren. Und am meisten bringt es, wenn du den Test nach einigen Wochen nochmal machst.</p>
+      </details>
+    </div>
+  </section>
+
+  <section id="s-quiz" hidden>
+    <div class="prog"><i id="bar"></i></div>
+    <div id="errMsg" class="err"></div>
+    <div class="card" id="qcard"></div>
+    <div class="actions">
+      <button class="btn btn-g" id="backBtn">Abbrechen</button>
+      <button class="btn btn-p" id="evalBtn" disabled>Mein Profil zeigen →</button>
+    </div>
+    <p style="text-align:center;font-size:.8rem;color:var(--soft);margin-top:10px" id="hint"></p>
+  </section>
+
+  <section id="s-result" hidden>
+    <div class="card">
+      <p class="ey">Dein Profil</p>
+      <h2 class="display" style="font-size:1.5rem;margin:6px 0 2px">Deine Lernstrategien auf einen Blick</h2>
+      <p style="color:var(--soft);font-size:.92rem;margin-bottom:8px">So siehst du dich gerade. Weiter außen = Strategie stärker genutzt.</p>
+      <div class="spider-wrap" id="spiderWrap"></div>
+      <p style="text-align:center;font-size:.8rem;color:var(--soft)">Niedrige Werte zeigen, wo am meisten zu holen ist.</p>
+    </div>
+    <div class="card">
+      <p class="ey" style="color:var(--sage)">Was du konkret ausprobieren kannst</p>
+      <h3 class="display" style="font-size:1.25rem;margin:6px 0 4px">Deine persönlichen Hinweise</h3>
+      <p style="color:var(--soft);font-size:.9rem;margin-bottom:16px">Zuerst die Strategien mit dem größten Hebel für dich.</p>
+      <div class="grid2" id="recs"></div>
+      <div class="note" id="fachNote" style="margin-top:18px"></div>
+    </div>
+    <div class="actions">
+      <button class="btn btn-p" id="pngBtn">🖼 Spinne als PNG</button>
+      <button class="btn btn-p" id="pdfBtn">📄 Profil als PDF</button>
+      <button class="btn btn-g" id="restartBtn">Nochmal machen</button>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Grundlage: SRL (Zimmerman), LIST‑K, KSI, WLI‑Schule · Dunlosky et al. 2013 · Donoghue &amp; Hattie 2021<br>
+  <strong>Keine Datenspeicherung</strong> – alles bleibt lokal auf deinem Gerät.</p>
+</footer>
+
+<script>
+'use strict';
+
+/* ── DATA ───────────────────────────────────────────────── */
+var ACHSEN=[
+  {id:"organisieren",kurz:"Ordnen",    name:"Stoff ordnen & strukturieren",        farbe:"#0E8C9A"},
+  {id:"verknuepfen", kurz:"Verknüpfen",name:"Neues mit Bekanntem verknüpfen",      farbe:"#3B82A0"},
+  {id:"abrufen",     kurz:"Abrufen",   name:"Aktiv abrufen statt nur lesen",       farbe:"#2FA37C"},
+  {id:"planen",      kurz:"Planen",    name:"Planen & den Überblick behalten",     farbe:"#5B6EC4"},
+  {id:"dranbleiben", kurz:"Dranbleiben",name:"Zeit einteilen & dranbleiben",       farbe:"#13A6B6"},
+  {id:"umgebung",    kurz:"Fokus",     name:"Lernumgebung & Konzentration",        farbe:"#6B7280"},
+  {id:"zusammen",    kurz:"Austausch", name:"Zusammen lernen & Hilfe holen",       farbe:"#8C6A9E"},
+  {id:"gefuehle",    kurz:"Antrieb",   name:"Antrieb & Umgang mit Prüfungsdruck", farbe:"#C2607E"},
+];
+var ITEMS=[
+  {achse:"organisieren",invert:false,sek56:"Bevor ich lerne, räume ich meine Sachen auf und lege alles raus, was ich brauche.",sek78:"Bevor ich lerne, bringe ich meine Unterlagen in eine sinnvolle Reihenfolge.",sek910:"Ich sortiere mein Material, bevor ich anfange – Hefte, Blätter, Mitschriften.",sek2:"Ich strukturiere das Lernmaterial vorab durch Themen-Gliederung oder Priorisierung."},
+  {achse:"organisieren",invert:false,sek56:"Ich male oder zeichne auf, was ich gelernt habe – zum Beispiel als Tabelle oder kleines Schaubild.",sek78:"Ich mache mir Übersichten, Tabellen oder Schaubilder, damit ich den Zusammenhang sehe.",sek910:"Ich verdichte Inhalte in Schaubildern – z. B. Mindmaps, Tabellen oder Pfeildiagramme.",sek2:"Ich erstelle eigene Strukturierungen – Mindmaps, Tabellen, Schaubilder, Gliederungen."},
+  {achse:"organisieren",invert:true,sek56:"Ich fange einfach an zu lernen, ohne meine Sachen vorher zu sortieren.",sek78:"Oft lerne ich drauflos, ohne mir vorher einen Überblick zu machen.",sek910:"Ich beginne häufig unstrukturiert – ohne den Stoff vorher zu gliedern.",sek2:"Ich beginne häufig ungeordnet, ohne den Stoff vorher zu strukturieren."},
+  {achse:"verknuepfen",invert:false,sek56:"Wenn ich etwas Neues lerne, überlege ich: Kenne ich sowas schon irgendwo?",sek78:"Ich überlege, was das Neue mit Dingen zu tun hat, die ich schon kenne.",sek910:"Ich frage mich bei neuem Stoff: Wo habe ich sowas schon mal gesehen?",sek2:"Ich aktiviere bewusst Vorwissen und suche Verbindungen zu Bekanntem."},
+  {achse:"verknuepfen",invert:false,sek56:"Ich erkläre, was ich gelernt habe, in meinen eigenen Worten – zum Beispiel meinen Eltern beim Abendessen.",sek78:"Ich versuche, Sachen in eigenen Worten zu erklären – als würde ich es jemandem zuhause am Tisch erzählen.",sek910:"Ich erkläre Themen in eigenen Worten – z. B. so, als würde ich es einer Mitschülerin erklären, die gefehlt hat.",sek2:"Ich erkläre Inhalte mir selbst oder anderen (Peer-Teaching) und suche das Warum dahinter."},
+  {achse:"verknuepfen",invert:true,sek56:"Wenn ich zuhause lerne, lese ich die Sachen einfach durch – ich überlege nicht warum.",sek78:"Wenn ich mich vorbereite, lerne ich Dinge meistens auswendig, ohne zu überlegen warum.",sek910:"Beim Vorbereiten pauere ich vor allem Fakten, ohne wirklich zu durchdenken was dahintersteckt.",sek2:"Ich präge mir Inhalte beim Vorbereiten oft auswendig ein, ohne sie tiefer zu durchdringen."},
+  {achse:"abrufen",invert:false,sek56:"Zum Üben klappe ich das Heft zu und versuche aufzuschreiben, was ich noch weiß – ohne hineinzuschauen.",sek78:"Ich teste mich selbst: Heft zu und aufschreiben, was ich noch aus dem Kopf weiß.",sek910:"Ich teste mich aktiv – z. B. mit Karteikarten, zugedeckten Notizen oder selbst gestellten Fragen.",sek2:"Ich nutze aktives Selbst-Testen (Karteikarten, Testfragen, Blank-Paper) statt passivem Lesen."},
+  {achse:"abrufen",invert:false,sek56:"Ich decke meine Notizen ab und schaue, woran ich mich noch erinnere – erst dann gucke ich nach.",sek78:"Ich decke den Text ab und prüfe, was ich noch erinnern kann, bevor ich nachschaue.",sek910:"Ich rufe Wissen aus dem Gedächtnis ab, bevor ich im Material nachschaue.",sek2:"Ich rufe Wissen aus dem Gedächtnis ab, bevor ich das Material zur Kontrolle nutze."},
+  {achse:"abrufen",invert:true,sek56:"Zum Lernen lese ich meine Sachen meistens einfach immer wieder durch.",sek78:"Zum Lernen lese ich meine Unterlagen vor allem mehrmals durch.",sek910:"Ich bereite mich hauptsächlich durch wiederholtes Lesen vor.",sek2:"Ich bereite mich überwiegend durch wiederholtes Lesen vor."},
+  {achse:"planen",invert:false,sek56:"Bevor ich lerne, überlege ich kurz: Was will ich heute schaffen?",sek78:"Bevor ich anfange, überlege ich, was ich in dieser Lernzeit schaffen möchte.",sek910:"Ich setze mir vor der Lerneinheit ein konkretes Ziel: Was genau soll heute klappen?",sek2:"Ich formuliere vor dem Lernen ein klares Ziel für die Einheit."},
+  {achse:"planen",invert:false,sek56:"Ich merke beim Lernen, wenn ich etwas nicht wirklich verstanden habe – und nicht nur auswendig kenne.",sek78:"Während des Lernens merke ich, ob ich etwas wirklich verstanden habe oder nur so tue als ob.",sek910:"Ich unterscheide: Habe ich das wirklich verstanden – oder lerne ich es nur auswendig, ohne es zu durchdringen?",sek2:"Ich überwache während des Lernens, ob ich Inhalte wirklich durchdringe oder nur oberflächlich verarbeite."},
+  {achse:"planen",invert:true,sek56:"Oft überrasche ich mich in der Arbeit: Ich dachte ich kann es – aber dann klappt es nicht.",sek78:"Oft merke ich erst in der Klassenarbeit, dass ich etwas doch nicht wirklich konnte.",sek910:"Häufig stelle ich erst in Klausuren fest, dass ich etwas nicht so gut beherrsche wie gedacht.",sek2:"Häufig bemerke ich Verständnislücken erst in der Prüfungssituation."},
+  {achse:"dranbleiben",invert:false,sek56:"Ich fange früh an zu lernen – nicht erst kurz vor der Arbeit – und teile den Stoff auf mehrere Tage auf.",sek78:"Ich verteile das Lernen auf mehrere Tage, statt alles kurz vor der Arbeit auf einmal zu machen.",sek910:"Ich plane mein Lernen so, dass ich den Stoff auf mehrere Tage verteile – nicht erst am Vorabend.",sek2:"Ich verteile mein Lernen bewusst über mehrere Tage und nutze nicht erst die Nacht vor der Prüfung."},
+  {achse:"dranbleiben",invert:false,sek56:"Wenn etwas schwer ist, gebe ich nicht sofort auf – ich probiere es nochmal oder frage um Hilfe.",sek78:"Auch wenn etwas nicht sofort klappt, höre ich nicht auf und lasse es nicht einfach aus.",sek910:"Ich arbeite mich auch durch schwierige Stellen durch, statt sie zu überspringen.",sek2:"Bei schwierigem Stoff halte ich durch und versuche, Verständnislücken aktiv zu schließen statt zu übergehen."},
+  {achse:"dranbleiben",invert:true,sek56:"Ich fange erst kurz vor der Arbeit an zu lernen – und dann ist meistens zu wenig Zeit.",sek78:"Ich schiebe das Lernen meistens vor mir her und merke dann, dass die Zeit zu knapp wird.",sek910:"Ich verschiebe das Lernen häufig – und stehe dann kurz vor dem Termin unter Druck.",sek2:"Ich neige dazu, das Lernen aufzuschieben, bis die Zeit knapp wird."},
+  {achse:"umgebung",invert:false,sek56:"Ich lerne an einem ruhigen Platz, wo nichts um mich herumliegt, was mich ablenkt.",sek78:"Ich sorge dafür, dass mein Lernplatz ruhig und aufgeräumt ist.",sek910:"Ich schaffe mir eine Lernumgebung, in der ich mich konzentrieren kann – aufgeräumt, ohne Ablenkung.",sek2:"Ich gestalte meine Lernumgebung bewusst ablenkungsarm."},
+  {achse:"umgebung",invert:true,sek56:"Ich habe beim Lernen oft das Handy griffbereit oder etwas läuft im Hintergrund.",sek78:"Beim Lernen habe ich oft das Handy in der Hand oder etwas läuft nebenbei.",sek910:"Ich lasse mich beim Lernen häufig durch Handy, Social Media oder Hintergrundgeräusche ablenken.",sek2:"Während des Lernens lasse ich mich häufig durch Handy oder andere Ablenkungen unterbrechen."},
+  {achse:"umgebung",invert:false,sek56:"Ich kann mich eine Weile lang auf eine Sache konzentrieren, ohne gedanklich abzuschweifen.",sek78:"Ich kann mich über eine längere Zeit auf eine Sache konzentrieren.",sek910:"Ich kann meine Aufmerksamkeit für längere Phasen auf eine Aufgabe richten.",sek2:"Ich kann meine Aufmerksamkeit längere Zeit fokussiert auf eine Aufgabe richten."},
+  {achse:"zusammen",invert:false,sek56:"Wenn ich etwas nicht verstehe, frage ich nach – bei Mitschüler:innen, Lehrkräften oder zuhause.",sek78:"Wenn ich etwas nicht verstehe, frage ich nach – bei Mitschüler:innen, Lehrkräften oder Eltern.",sek910:"Bei Verständnisproblemen hole ich mir Hilfe – bei Peers, Lehrkräften oder Eltern.",sek2:"Bei Verständnisproblemen hole ich mir Hilfe – bei Peers, Lehrkräften oder anderen Unterstützungsangeboten."},
+  {achse:"zusammen",invert:false,sek56:"Ich lerne manchmal zusammen mit anderen und erkläre ihnen, was ich verstanden habe.",sek78:"Ich lerne manchmal mit anderen zusammen und erkläre ihnen Sachen – oder übe das mit einer KI als Lernpartner.",sek910:"Ich nutze Austausch mit Peers oder einer KI, um Themen zu erklären und mein Verständnis zu prüfen.",sek2:"Ich nutze Austausch mit Peers oder KI-Tools (z. B. als Erklär-Partner) aktiv für mein Lernen."},
+  {achse:"zusammen",invert:true,sek56:"Wenn ich etwas nicht verstehe, frage ich lieber niemanden und hoffe, dass es sich löst.",sek78:"Wenn ich etwas nicht kann, behalte ich das meistens für mich und frage nicht nach.",sek910:"Ich behalte Wissenslücken eher für mich, statt aktiv nachzufragen.",sek2:"Ich behalte Verständnislücken eher für mich, statt nachzufragen."},
+  {achse:"gefuehle",invert:false,sek56:"Ich glaube daran, dass ich auch schwierige Sachen lernen kann, wenn ich mich wirklich anstrenge.",sek78:"Ich denke: Wenn ich mich genug anstrenge, kann ich auch schwierige Aufgaben schaffen.",sek910:"Ich bin überzeugt, dass ich durch Anstrengung auch schwierigen Stoff meistern kann.",sek2:"Ich verfüge über ein stabiles Zutrauen in meine Lernfähigkeit – auch bei anspruchsvollen Aufgaben."},
+  {achse:"gefuehle",invert:true,sek56:"Vor einer Arbeit bin ich manchmal so aufgeregt, dass mir der Kopf ganz leer wird.",sek78:"Kurz vor oder während einer Arbeit werde ich so nervös, dass ich nicht mehr klar denken kann.",sek910:"Vor Prüfungen bin ich oft so angespannt, dass ich Dinge vergesse, die ich eigentlich konnte.",sek2:"Prüfungsangst beeinträchtigt mich spürbar – ich weiß oft mehr, als ich in Prüfungen abrufen kann."},
+  {achse:"gefuehle",invert:false,sek56:"Es gibt Themen oder Fächer, die mich wirklich interessieren und bei denen ich gerne mehr wissen will.",sek78:"Es gibt Themen oder Fächer, bei denen ich wirklich gern lerne und neugierig bin.",sek910:"Es gibt Bereiche, die mich wirklich interessieren – da geht Lernen fast von selbst.",sek2:"Ich erlebe bei manchen Themen echtes Interesse, das mich antreibt."},
+];
+var TIPPS = {
+
+/* ── 1 ORDNEN ─────────────────────────────────────────── */
+organisieren:{
+ niedrig:{
+  sek56:{intro:"So bekommst du Überblick – und es bleibt mehr hängen:",tips:[
+    {text:"Zeichne das Thema aus dem Kopf: ein kleines Bild oder Symbol für jede wichtige Sache. Egal, wie krakelig – Hauptsache selbst gemalt.",badge:"gut",warum:"Selbst aus dem Gedächtnis zeichnen lässt dich Stoff fast doppelt so gut behalten (Wammes & Fernandes 2016). Zeichenkönnen ist egal."},
+    {text:"Mal eine Map: Begriffe in Kästchen, dazwischen Pfeile mit einem Wort drauf ('führt zu', 'gehört zu').",badge:"gut",warum:"Selbst erstellte Concept Maps wirken klar besser als fertige anzuschauen (g≈0,72; Schroeder u.a. 2018)."}]},
+  sek78:{intro:"So bringst du Struktur rein – und merkst dir mehr:",tips:[
+    {text:"Zeichne den Stoff aus dem Gedächtnis als kleine Skizze, statt die Definition abzuschreiben.",badge:"gut",warum:"Der 'Drawing Effect': aus dem Kopf zeichnen schlägt Abschreiben deutlich (Wammes & Fernandes 2016)."},
+    {text:"Bau eine eigene Concept Map mit beschrifteten Pfeilen zwischen den Begriffen – nicht nur Stichpunkte sammeln.",badge:"gut",warum:"Konstruieren von Concept Maps: g≈0,72 vs. 0,43 fürs bloße Anschauen (Schroeder u.a. 2018)."}]},
+  sek910:{intro:"So strukturierst du wirksam:",tips:[
+    {text:"Erstelle eine Concept Map mit benannten Relationen ('verursacht', 'ist Teil von') – selbst gebaut, nicht kopiert.",badge:"gut",warum:"Selbst konstruierte Concept Maps: mittlerer bis großer Effekt (g≈0,72; Schroeder u.a. 2018)."},
+    {text:"Zu schwierigen Textstellen eine eigene erklärende Skizze zeichnen (Dual Coding: Wort + Bild).",badge:"gut",warum:"Verbale + selbst erzeugte bildliche Kodierung ergänzen sich (Dual-Coding; Drawing Effect, Wammes & Fernandes 2016)."}]},
+  sek2:{intro:"So gewinnst du Struktur und Tiefe:",tips:[
+    {text:"Konstruiere eine eigene Concept Map mit beschrifteten Relationen statt fertige Übersichten zu konsumieren.",badge:"gut",warum:"Selbst konstruierte Maps: g≈0,72 vs. 0,43 für vorgegebene (Schroeder u.a. 2018)."},
+    {text:"Nutze Dual Coding: zentrale Konzepte zusätzlich als eigene Skizze aus dem Gedächtnis darstellen.",badge:"gut",warum:"Drawing Effect + Dual Coding: bildliche Eigenproduktion stärkt das Behalten (Wammes & Fernandes 2016)."}]},
+ },
+ mittel:{
+  sek56:{intro:"Du ordnest schon gut. Ein Schritt weiter:",tips:[
+    {text:"Decke deine Map ab und versuch, sie aus dem Kopf neu zu zeichnen.",badge:"gut",warum:"Aus dem Gedächtnis rekonstruieren verbindet Ordnen mit aktivem Abrufen – die stärkste Kombi."}]},
+  sek78:{intro:"Solide Struktur. So legst du nach:",tips:[
+    {text:"Zeichne deine Übersicht einmal komplett aus dem Gedächtnis nach – ohne Vorlage.",badge:"gut",warum:"Rekonstruktion aus dem Kopf nutzt den Retrieval-Effekt (Adesope u.a. 2017)."}]},
+  sek910:{intro:"Gute Strukturarbeit. Feinschliff:",tips:[
+    {text:"Erzeuge deine Concept Map zweimal: einmal mit Material, einmal blind aus dem Gedächtnis – vergleiche.",badge:"gut",warum:"Der Soll-Ist-Vergleich macht Lücken sichtbar (Retrieval + Kalibrierung)."}]},
+  sek2:{intro:"Solide Organisation. Zum Ausbauen:",tips:[
+    {text:"Koppele Strukturieren an Retrieval: Map abdecken und vollständig aus dem Gedächtnis rekonstruieren.",badge:"gut",warum:"Kombination mit Retrieval Practice nutzt den stärksten belegten Effekt (Adesope u.a. 2017)."}]},
+ },
+ hoch:{
+  sek56:{lob:"Ordnen kannst du richtig gut!",verstaerkung:"Nutze das: Erklär jemandem deine Map – erklären festigt es noch mehr bei dir."},
+  sek78:{lob:"Strukturieren ist eine echte Stärke von dir.",verstaerkung:"Tipp: Rekonstruiere deine Übersichten ab und zu aus dem Kopf – so wird Ordnen zum aktiven Abrufen."},
+  sek910:{lob:"Du strukturierst sehr sicher.",verstaerkung:"Nutze die Stärke, indem du Maps blind aus dem Gedächtnis erzeugst und mit dem Material abgleichst."},
+  sek2:{lob:"Organisieren beherrschst du souverän.",verstaerkung:"Hebe den Effekt, indem du deine Strukturen aus dem Gedächtnis rekonstruierst (Retrieval) statt sie nur anzuschauen."},
+ },
+},
+
+/* ── 2 VERKNÜPFEN ─────────────────────────────────────── */
+verknuepfen:{
+ niedrig:{
+  sek56:{intro:"So bleibt Stoff wirklich hängen:",tips:[
+    {text:"Erklär das Thema so einfach, dass es ein kleines Kind versteht (Feynman-Trick). Wo du stockst, hast du eine Lücke gefunden.",badge:"gut",warum:"Sich selbst erklären deckt Lücken auf und festigt (Self-Explanation, g≈0,55; Bisra u.a. 2018)."},
+    {text:"Erfinde ein eigenes Beispiel aus deinem Alltag zu dem, was du lernst.",badge:"kann",warum:"Eigene Beispiele verknüpfen Neues mit Bekanntem (Elaboration)."}]},
+  sek78:{intro:"So verankerst du Stoff besser:",tips:[
+    {text:"Feynman-Technik: Erklär ein Thema in ganz einfachen Worten (wie für eine 10-Jährige). Die Stellen, wo du hängst, lernst du gezielt nach.",badge:"gut",warum:"Selbsterklären in einfacher Sprache deckt Verständnislücken auf (g≈0,55; Bisra u.a. 2018)."},
+    {text:"Frag dich bei jeder Sache: 'Warum ist das so?' – und beantworte es.",badge:"kann",warum:"Warum-Fragen (elaborative interrogation) helfen, wenn du schon etwas Grundwissen hast (Dunlosky u.a. 2013)."}]},
+  sek910:{intro:"So verknüpfst du tiefer:",tips:[
+    {text:"Feynman-Technik: Thema in einfachster Sprache erklären, Stolperstellen markieren, nachschlagen, vereinfachen.",badge:"gut",warum:"Selbsterklären/Vereinfachen: g≈0,55 (Bisra u.a. 2018); deckt Scheinwissen auf."},
+    {text:"Bilde eigene Analogien: 'Das ist so ähnlich wie ___, weil ___.'",badge:"kann",warum:"Analogien und eigene Beispiele sind klassische Elaborationsstrategien."}]},
+  sek2:{intro:"So elaborierst du wirkungsvoll:",tips:[
+    {text:"Self-Explanation / Feynman: Inhalte und Lösungswege in einfachster Sprache erklären; an Stockstellen liegt die Lücke.",badge:"gut",warum:"Self-Explanation: g≈0,55; selbst generierte Erklärungen am wirksamsten (Bisra u.a. 2018)."},
+    {text:"Aktiviere Vorwissen über Warum-Fragen und eigene Analogien zu bereits Bekanntem.",badge:"kann",warum:"Elaborative Interrogation wirkt moderat, abhängig vom Vorwissen (Dunlosky u.a. 2013)."}]},
+ },
+ mittel:{
+  sek56:{intro:"Schon gut verknüpft! Mehr davon:",tips:[
+    {text:"Erklär das Thema jemandem (oder einer KI) so, als wärst du die Lehrkraft.",badge:"gut",warum:"Wer wirklich erklärt, lernt am meisten (Learning by Teaching, g≈0,56; Kobayashi 2019)."}]},
+  sek78:{intro:"Solide. So vertiefst du:",tips:[
+    {text:"Erklär ein Thema laut, als würdest du es unterrichten – Lücken zeigen sich, wo du ins Stocken gerätst.",badge:"gut",warum:"Lehren mit echter Erklärabsicht: g≈0,56 (Kobayashi 2019)."}]},
+  sek910:{intro:"Gute Verknüpfung. Weiter:",tips:[
+    {text:"Nimm dich beim Erklären per Sprachnachricht auf – beim Anhören hörst du deine 'ähm's und Lücken.",badge:"kann",warum:"Hörbare Stockstellen markieren genau die Stellen mit unklarem Verständnis (Self-Explanation)."}]},
+  sek2:{intro:"Solide Elaboration. Ausbau:",tips:[
+    {text:"Verschachtele beim Üben ähnliche Aufgabentypen (Interleaving), statt blockweise – fördert das Unterscheiden.",badge:"kann",warum:"Interleaving: g≈0,42, stärker bei visuellem Material, schwächer in Mathematik (Brunmair & Richter 2019)."}]},
+ },
+ hoch:{
+  sek56:{lob:"Du verbindest Neues super mit dem, was du kennst!",verstaerkung:"Bleib dran: Erklär anderen Sachen – das macht dich noch sicherer."},
+  sek78:{lob:"Verknüpfen ist eine Stärke von dir.",verstaerkung:"Nutze sie: Erklär regelmäßig anderen oder einer KI – wer erklärt, lernt am meisten."},
+  sek910:{lob:"Du elaborierst sehr gut.",verstaerkung:"Halte das hoch und kombiniere es mit aktivem Abrufen für maximale Wirkung."},
+  sek2:{lob:"Tiefe Verarbeitung gelingt dir souverän.",verstaerkung:"Koppel Elaboration an Retrieval Practice – das ist die wirksamste Kombination."},
+ },
+},
+
+/* ── 3 ABRUFEN ────────────────────────────────────────── */
+abrufen:{
+ niedrig:{
+  sek56:{intro:"Das hier bringt am meisten – ehrlich:",tips:[
+    {text:"Blurting: Klapp das Heft zu und schreib alles auf, was du noch weißt. Dann mit anderer Farbe ergänzen, was gefehlt hat.",badge:"gut",warum:"Sich selbst abfragen ist die am besten belegte Lerntechnik – klar besser als Lesen (Adesope u.a. 2017). Der Farb-Trick zeigt dir genau deine Lücken."},
+    {text:"Karteikarten: erst selbst laut antworten, dann umdrehen. Nie nur angucken!",badge:"gut",warum:"Aktiv erinnern wirkt, bloßes Wiedererkennen kaum."},
+    {text:"Lies deine Sachen nicht immer wieder durch – das fühlt sich gut an, bringt aber wenig.",badge:"gut",warum:"Wiederholtes Lesen ist eine der schwächsten Methoden (Dunlosky u.a. 2013)."}]},
+  sek78:{intro:"Der stärkste Hebel für dich:",tips:[
+    {text:"Brain Dump (Blurting): Buch zu, alles aus dem Kopf aufschreiben – dann in anderer Farbe ergänzen, was gefehlt hat.",badge:"gut",warum:"Retrieval Practice: gegenüber Lesen g≈0,51, gegenüber Nichtstun g≈0,93 (Adesope u.a. 2017). Die zweite Farbe macht Lücken sichtbar."},
+    {text:"Mach aus deinen Karteikarten ein Leitner-System: gewusste Karten kommen ins 'selten'-Fach, Fehler zurück nach vorn.",badge:"gut",warum:"Leitner-Box verbindet Abrufen + Verteilen – die zwei stärksten Effekte (Cepeda u.a. 2006)."},
+    {text:"Challenge: Mach denselben Selbsttest mehrere Tage und versuch, deinen Vortag zu schlagen.",badge:"kann",warum:"'Beat your score' verbindet Retrieval, Verteilen und Motivation – die Prinzipien sind gut belegt."}]},
+  sek910:{intro:"Hier ist am meisten zu holen:",tips:[
+    {text:"Brain Dump / Blurting: Material zu, frei aus dem Gedächtnis rekonstruieren, dann in anderer Farbe ergänzen.",badge:"gut",warum:"Retrieval Practice ist die robusteste Technik im Forschungsfeld (Adesope u.a. 2017)."},
+    {text:"Rechne alte Klausuren/Aufgaben unter echten Bedingungen ohne Hilfsmittel, korrigiere danach.",badge:"gut",warum:"Past Papers nutzen den Testing-Effekt unter prüfungsnahen Bedingungen."},
+    {text:"Erstelle dir selbst Prüfungsfragen und beantworte sie Tage später.",badge:"gut",warum:"Eigene Fragen + verzögertes Abrufen verstärken den Effekt; Feedback hilft zusätzlich."}]},
+  sek2:{intro:"Der wirksamste Hebel überhaupt:",tips:[
+    {text:"Blank-Paper / Blurting: Material schließen, frei rekonstruieren, mit anderer Farbe Lücken ergänzen.",badge:"gut",warum:"Retrieval Practice: g≈0,51 vs. Restudy, g≈0,93 vs. keine Aktivität (Adesope u.a. 2017)."},
+    {text:"Alte Klausuren ohne Hilfsmittel unter Zeitdruck – danach gezielt die Lücken schließen.",badge:"gut",warum:"Testing-Effekt + transfer-appropriate processing; wirkt auch für Transfer (≈0,53)."},
+    {text:"Leitner-Box für Karteikarten: nach Beherrschung gestaffelte Wiederholungsabstände.",badge:"gut",warum:"Kombiniert Retrieval und Spacing systematisch (Cepeda u.a. 2006)."}]},
+ },
+ mittel:{
+  sek56:{intro:"Du fragst dich schon ab – top! Mehr davon:",tips:[
+    {text:"Frag dich öfter ab, verteilt über mehrere Tage statt alles an einem.",badge:"gut",warum:"Abrufen + Verteilen ist die stärkste Kombination."}]},
+  sek78:{intro:"Gute Abruf-Praxis. So legst du nach:",tips:[
+    {text:"Nutze die 2357-Methode: wiederhole an Tag 1, 2, 3, 5 und 7.",badge:"gut",warum:"Verteiltes Abrufen (Spacing) maximiert das Behalten (Cepeda u.a. 2006)."}]},
+  sek910:{intro:"Solides Abrufen. Optimierung:",tips:[
+    {text:"Wiederhole dieselben Fragen mit wachsendem Abstand: nach 1 Tag, 3 Tagen, einer Woche.",badge:"gut",warum:"Expanding Spacing unterstützt langfristiges Behalten (Cepeda u.a. 2006/2008)."}]},
+  sek2:{intro:"Du nutzt die Top-Technik. Maximieren:",tips:[
+    {text:"Kombiniere Retrieval mit wachsenden Spacing-Intervallen und gezieltem Feedback auf Fehlerstellen.",badge:"gut",warum:"Spaced Retrieval Practice mit Feedback = stärkste belegte Kombination."}]},
+ },
+ hoch:{
+  sek56:{lob:"Klasse – du fragst dich selbst ab! Das ist die beste Methode.",verstaerkung:"Mach weiter so und verteil es über mehrere Tage (z.B. Tag 1, 3, 7)."},
+  sek78:{lob:"Aktives Abrufen hast du drauf – die wirksamste Lerntechnik überhaupt.",verstaerkung:"Kombiniere es mit Verteilen (2357-Methode: Tag 1, 2, 3, 5, 7)."},
+  sek910:{lob:"Du nutzt die am besten belegte Technik souverän.",verstaerkung:"Steigere den Effekt durch wachsende Abstände zwischen den Abruf-Durchgängen."},
+  sek2:{lob:"Retrieval Practice beherrschst du – das ist der Goldstandard.",verstaerkung:"Optimiere über expanding spacing und gezieltes Feedback auf Fehlerstellen."},
+ },
+},
+
+/* ── 4 PLANEN ─────────────────────────────────────────── */
+planen:{
+ niedrig:{
+  sek56:{intro:"So behältst du den Überblick:",tips:[
+    {text:"Mach einen Wenn-Dann-Plan: 'Wenn ich nach Hause komme, dann lerne ich erst 20 Minuten, bevor ich zocke.'",badge:"gut",warum:"Wenn-Dann-Pläne helfen nachweislich, Vorhaben umzusetzen (d≈0,65; Gollwitzer & Sheeran 2006)."},
+    {text:"Frag dich am Ende: 'Was kann ich jetzt, was ich vorher nicht konnte?'",badge:"kann",warum:"Diese kurze Selbstprüfung macht Fortschritt und Lücken sichtbar (Metakognition)."}]},
+  sek78:{intro:"So planst du wirksamer:",tips:[
+    {text:"Wenn-Dann-Plan mit Ort und Zeit: 'Wenn es 16 Uhr ist, dann lerne ich 30 Min am Schreibtisch Vokabeln.'",badge:"gut",warum:"Implementation Intentions: mittlerer bis großer Effekt (d≈0,65; Gollwitzer & Sheeran 2006)."},
+    {text:"Starte mit einem klaren Ziel ('Heute kann ich danach ___') und prüf am Ende ehrlich nach.",badge:"kann",warum:"Selbstüberwachung verhindert das böse Erwachen in der Arbeit."}]},
+  sek910:{intro:"So steuerst du dein Lernen gezielter:",tips:[
+    {text:"Formuliere Wenn-Dann-Pläne mit konkretem Ort und Zeit für den Lernstart.",badge:"gut",warum:"Implementation Intentions (d≈0,65) wirken besonders gegen Aufschieben (Ablenkungsschutz d≈0,77)."},
+    {text:"Plane Wiederholungen fest ein (2357: Tag 1, 2, 3, 5, 7) statt 'irgendwann'.",badge:"gut",warum:"Fest verplantes verteiltes Wiederholen schlägt spontanes Lernen (Cepeda u.a. 2006)."}]},
+  sek2:{intro:"So regulierst du dein Lernen präzise:",tips:[
+    {text:"Setze Implementation Intentions ('Wenn Situation X, dann Handlung Y') für Start und Ablenkungsschutz.",badge:"gut",warum:"Gollwitzer & Sheeran 2006: d≈0,65 gesamt; Ablenkungsschutz d≈0,77."},
+    {text:"Verplane Spacing-Intervalle konkret im Kalender (Faustregel: Abstand ≈ 10-20% bis zum Prüfungstermin).",badge:"gut",warum:"Optimales Spacing skaliert mit dem Behaltensintervall (Cepeda u.a. 2008)."}]},
+ },
+ mittel:{
+  sek56:{intro:"Du planst schon. Ein Schritt mehr:",tips:[
+    {text:"Stell dir mitten beim Lernen kurze Testfragen – merkst du, wo du nur denkst, du kannst es?",badge:"gut",warum:"Selbsttest deckt Scheinwissen auf und steuert deine Zeit."}]},
+  sek78:{intro:"Solide Planung. Ergänzung:",tips:[
+    {text:"Prüfe dich zwischendurch selbst – so merkst du, wo du nur glaubst, es zu können.",badge:"gut",warum:"Abruf verbessert auch die Selbsteinschätzung (Kalibrierung)."}]},
+  sek910:{intro:"Gute Selbststeuerung. Feinschliff:",tips:[
+    {text:"Lenke deine Lernzeit gezielt auf die wackligen Stellen, die deine Selbsttests aufdecken.",badge:"gut",warum:"Datenbasierte Lernsteuerung nutzt den Testing-Effekt doppelt."}]},
+  sek2:{intro:"Solide Metakognition. Ausbau:",tips:[
+    {text:"Verbinde Monitoring mit Retrieval: Was du nicht frei abrufen kannst, ist deine Priorität.",badge:"gut",warum:"Kalibrierung über Abruf ist verlässlicher als reines Bauchgefühl."}]},
+ },
+ hoch:{
+  sek56:{lob:"Du planst richtig gut und merkst, was du kannst!",verstaerkung:"Nutz das, um deine Zeit auf das Schwierige zu lenken."},
+  sek78:{lob:"Planen und Überwachen sind Stärken von dir.",verstaerkung:"Lenke die Zeit gezielt auf die noch wackligen Stellen – das ist effizient."},
+  sek910:{lob:"Du steuerst dein Lernen sehr bewusst.",verstaerkung:"Setze die Stärke ein, um Prioritäten datenbasiert (via Selbsttests) zu setzen."},
+  sek2:{lob:"Deine Selbstregulation ist stark ausgeprägt.",verstaerkung:"Nutze Kalibrierung über Retrieval, um Lernzeit optimal zu allokieren."},
+ },
+},
+
+/* ── 5 DRANBLEIBEN ────────────────────────────────────── */
+dranbleiben:{
+ niedrig:{
+  sek56:{intro:"So fällt Anfangen leichter:",tips:[
+    {text:"2-Minuten-Regel: Sag dir, du machst nur 2 Minuten. Meist machst du dann von allein weiter.",badge:"test",warum:"Senkt die Anfangshürde – populär und plausibel (dockt an Steel 2007 an), aber direkt noch wenig erforscht."},
+    {text:"Erlaub dir Lieblingsmusik oder eine Serie NUR während des Lernens (Belohnung koppeln).",badge:"kann",warum:"Temptation Bundling: Koppeln von 'will' und 'soll' erhöhte in einer Studie das Durchhalten (Milkman u.a. 2014)."},
+    {text:"Lern lieber kurz an mehreren Tagen statt alles am Abend vorher.",badge:"gut",warum:"Verteiltes Lernen schlägt Pauken klar – sehr gut belegt (Cepeda u.a. 2006)."}]},
+  sek78:{intro:"So bleibst du leichter dran:",tips:[
+    {text:"Verteil dein Lernen auf mehrere Tage statt alles auf einmal – das schlägt die lange Nacht klar.",badge:"gut",warum:"Distributed Practice: hohe Nützlichkeit (Dunlosky u.a. 2013; Cepeda u.a. 2006)."},
+    {text:"2-Minuten-Regel gegen Aufschieben: nur kurz anfangen (Buch auf, erste Aufgabe lesen).",badge:"test",warum:"Aktivierungsenergie senken ist plausibel (Steel 2007), als eigene Technik aber dünn belegt."},
+    {text:"Temptation Bundling: Lieblingsmusik/Podcast nur beim Lernen erlauben.",badge:"kann",warum:"Koppeln von Belohnung und Aufgabe half in Milkman u.a. (2014); Effekt nimmt mit Zeit ab."}]},
+  sek910:{intro:"So gewinnst du Konstanz:",tips:[
+    {text:"Verteile mehrere kürzere Einheiten über die Woche – je länger du behalten willst, desto größer die Abstände.",badge:"gut",warum:"Optimales Spacing hängt vom Behaltensintervall ab (Cepeda u.a. 2008)."},
+    {text:"Zerleg große Aufgaben in den kleinstmöglichen ersten Schritt und setz dir Zwischen-Deadlines.",badge:"gut",warum:"Aufgaben-Aversität und present bias treiben Prokrastination (Steel 2007); kleine Schritte senken die Hürde."}]},
+  sek2:{intro:"So baust du Konstanz und Verbindlichkeit auf:",tips:[
+    {text:"Verteile Lerneinheiten bewusst über Tage/Wochen; passe Abstände ans Ziel-Behaltensintervall an.",badge:"gut",warum:"Distributed Practice: hohe Nützlichkeit; Spacing-Intervall skaliert mit Retention (Cepeda u.a. 2006/2008)."},
+    {text:"Gegen Prokrastination: kleinste Startschritte, künstliche Zwischen-Deadlines, ggf. Temptation Bundling.",badge:"kann",warum:"Steel 2007 (Prädiktoren); Temptation Bundling (Milkman u.a. 2014) als ergänzende, plausible Hilfe."}]},
+ },
+ mittel:{
+  sek56:{intro:"Du bleibst ganz gut dran. Weiter so:",tips:[
+    {text:"Mach dir feste kleine Lernzeiten an mehreren Tagen – Gewohnheit hilft mehr als Willenskraft.",badge:"gut",warum:"Regelmäßiges, verteiltes Üben ist nachhaltig wirksam (Cepeda u.a. 2006)."}]},
+  sek78:{intro:"Solide Ausdauer. Optimierung:",tips:[
+    {text:"Zerleg große Aufgaben in klar definierte 20-Minuten-Schritte mit festem Start.",badge:"kann",warum:"Kleine, konkrete Schritte senken die Aufgaben-Aversität (Steel 2007)."}]},
+  sek910:{intro:"Gute Konstanz. Feinschliff:",tips:[
+    {text:"Variiere die Abstände bewusst: kürzere zu Beginn, längere vor der Prüfung.",badge:"gut",warum:"Expanding Spacing unterstützt langfristiges Behalten."}]},
+  sek2:{intro:"Solide Selbstdisziplin. Ausbau:",tips:[
+    {text:"Plane Spacing-Intervalle strategisch nach Termin und koppele sie an Abruf-Sessions.",badge:"gut",warum:"Spacing + Retrieval ist die wirksamste Lern-Architektur."}]},
+ },
+ hoch:{
+  sek56:{lob:"Du fängst früh an und bleibst dran – stark!",verstaerkung:"Halt deine festen Lernzeiten – das ist Gold wert."},
+  sek78:{lob:"Dranbleiben und Zeiteinteilung klappen bei dir.",verstaerkung:"Feste Lernzeiten sind die unspektakulärste, aber zuverlässigste Stärke – halte sie stabil."},
+  sek910:{lob:"Deine Lernkonstanz ist sehr gut.",verstaerkung:"Nutze sie, indem du Spacing gezielt mit Abruf-Sessions verbindest."},
+  sek2:{lob:"Du arbeitest verteilt und verbindlich – vorbildlich.",verstaerkung:"Optimiere über strategisch geplante Spacing-Intervalle bis zum Prüfungstermin."},
+ },
+},
+
+/* ── 6 FOKUS ──────────────────────────────────────────── */
+umgebung:{
+ niedrig:{
+  sek56:{intro:"So kannst du dich besser konzentrieren:",tips:[
+    {text:"Leg das Handy in einen ANDEREN Raum, solange du lernst – nicht nur auf lautlos.",badge:"test",warum:"Ob das Handy allein schon stört, ist in der Forschung umstritten (kleiner Effekt). Weglegen kostet nichts und kann helfen."},
+    {text:"Nur ein Tab/Heft offen – räum alles weg, was du gerade nicht brauchst.",badge:"kann",warum:"Weniger Ablenkungsreize unterstützen die Konzentration."},
+    {text:"Lern mal zusammen mit jemandem (auch per Video) am selben Tisch, jeder für sich.",badge:"test",warum:"'Body Doubling / study with me' ist beliebt; es gibt dazu aber kaum Forschung – probier, ob es dir hilft."}]},
+  sek78:{intro:"So hältst du den Fokus:",tips:[
+    {text:"Handy in einen anderen Raum (nicht nur lautlos) – das kann helfen und schadet nie.",badge:"test",warum:"Der 'Brain-Drain'-Effekt durch bloße Handy-Präsenz ist zwischen Studien umstritten und klein (Böttger u.a. 2023)."},
+    {text:"Single-Tab-Regel: beim Lernen nur das Nötige offen, kein zweiter Bildschirm nebenbei.",badge:"kann",warum:"Multitasking/Reizflut reduziert die Aufmerksamkeit."},
+    {text:"Beim Lesen/Auswendiglernen lieber ohne Musik mit Text – Liedtexte stören besonders.",badge:"kann",warum:"Hintergrundmusik hat im Schnitt keinen Nutzen und stört das Lesen (v.a. mit Gesang; Kämpfe u.a. 2011)."}]},
+  sek910:{intro:"So schützt du deine Konzentration:",tips:[
+    {text:"Smartphone außer Reichweite (anderer Raum) – Wirkung klein und umstritten, aber risikolos.",badge:"test",warum:"Zwei Meta-Analysen 2023 widersprechen sich zum Effekt der bloßen Handy-Präsenz; insgesamt klein."},
+    {text:"Single-Tab-Regel und feste Lernorte schaffen verlässliche Fokus-Bedingungen.",badge:"kann",warum:"Ablenkungsreduktion ist plausibel wirksam."},
+    {text:"Hintergrundgeräusche bewusst wählen: beim Lesen eher Stille, Musik mit Text meiden.",badge:"kann",warum:"Musik mit Gesang stört das Textverständnis am stärksten (Kämpfe u.a. 2011)."}]},
+  sek2:{intro:"So sicherst du deine Aufmerksamkeit:",tips:[
+    {text:"Smartphone außer Sicht/Reichweite – kleiner, umstrittener, aber risikoloser Effekt.",badge:"test",warum:"Böttger u.a. 2023: kleiner negativer Effekt (g≈−0,14); Replikationslage uneinheitlich."},
+    {text:"Single-Tab-Regel und feste Lernumgebung; anspruchsvolle Aufgaben in frische Phasen legen.",badge:"kann",warum:"Reizarme Umgebung plausibel; Aufmerksamkeit sinkt über die Zeit."},
+    {text:"Beim Lesen/Auswendiglernen Stille bevorzugen; Vokalmusik meiden.",badge:"kann",warum:"Hintergrundmusik: Gesamteffekt null, beim Lesen eher schädlich (Kämpfe u.a. 2011)."}]},
+ },
+ mittel:{
+  sek56:{intro:"Deine Umgebung passt oft. Tipp:",tips:[
+    {text:"Probier feste Lernblöcke mit kurzen Pausen – schau, welcher Rhythmus dir liegt.",badge:"test",warum:"Pausen helfen plausibel; das beste Schema (z.B. Pomodoro) ist individuell und nicht als überlegen belegt."}]},
+  sek78:{intro:"Solider Fokus. Feinjustierung:",tips:[
+    {text:"Teste verschiedene Fokus-Pausen-Rhythmen und behalte, was für dich am besten wirkt.",badge:"test",warum:"Kein festes Schema ist nachweislich überlegen – Ausprobieren lohnt."}]},
+  sek910:{intro:"Gute Konzentration. Optimierung:",tips:[
+    {text:"Leg die anspruchsvollsten Aufgaben in deine frischeste Phase.",badge:"kann",warum:"Aufmerksamkeit lässt über die Zeit nach (vigilance decrement)."}]},
+  sek2:{intro:"Solider Fokus. Ausbau:",tips:[
+    {text:"Plane kognitiv schwere Arbeit in Hochphasen und nutze Pausen zur Reaktivierung.",badge:"kann",warum:"Plausibel; die genaue Pausen-Mechanik ist nicht eindeutig belegt."}]},
+ },
+ hoch:{
+  sek56:{lob:"Du kannst dich richtig gut konzentrieren!",verstaerkung:"Nimm dir das Schwierigste zuerst vor, solange du frisch bist."},
+  sek78:{lob:"Konzentration ist eine Stärke von dir.",verstaerkung:"Nutze sie für die anstrengendsten Aufgaben zuerst."},
+  sek910:{lob:"Du fokussierst sehr gut.",verstaerkung:"Setze die Stärke gezielt für die kognitiv schwerste Arbeit ein."},
+  sek2:{lob:"Deine Konzentrationsfähigkeit ist ausgeprägt.",verstaerkung:"Allokiere sie auf die anspruchsvollsten Aufgaben in deinen Hochphasen."},
+ },
+},
+
+/* ── 7 AUSTAUSCH ──────────────────────────────────────── */
+zusammen:{
+ niedrig:{
+  sek56:{intro:"Zusammen geht vieles leichter:",tips:[
+    {text:"Erklär jemandem das Thema, als wärst du die Lehrkraft – Geschwistern, Eltern oder einer KI.",badge:"gut",warum:"Wer wirklich erklärt, lernt am meisten (Learning by Teaching, g≈0,56; Kobayashi 2019)."},
+    {text:"Wenn du etwas nicht verstehst: frag nach einem TIPP, nicht nach der ganzen Lösung.",badge:"kann",warum:"Nach Hinweisen fragen (adaptive Hilfesuche) erhält den Lerneffekt und hängt mit besseren Leistungen zusammen (Karabenick)."}]},
+  sek78:{intro:"So nutzt du Austausch für dich:",tips:[
+    {text:"Bring jemandem (oder einer KI) den Stoff bei – erklär aktiv, statt nur vorzulesen.",badge:"gut",warum:"Lehren mit echter Erklärabsicht: g≈0,56 (Kobayashi 2019). Wichtig: wirklich erklären, nicht berieseln lassen."},
+    {text:"Hol dir gezielt Hilfe: frag nach einem Hinweis, nicht nach der fertigen Lösung.",badge:"kann",warum:"Instrumentelle Hilfesuche fördert Eigenständigkeit und Leistung (Karabenick)."}]},
+  sek910:{intro:"So machst du Austausch produktiv:",tips:[
+    {text:"Bereite ein Thema auf, als müsstest du es unterrichten – und erkläre es dann wirklich (Peer, Video oder KI).",badge:"gut",warum:"Der Nutzen entsteht durch Erklärabsicht + echtes Erklären, nicht durch bloßes Lesen (Kobayashi 2019)."},
+    {text:"Quizzt euch im Lernteam gegenseitig ab, statt nur gemeinsam zu lesen.",badge:"gut",warum:"Peer-Quizzing kombiniert Retrieval + Erklären – beide belegt."}]},
+  sek2:{intro:"So nutzt du soziale Ressourcen strategisch:",tips:[
+    {text:"Learning-by-Teaching mit echter Lehr-Erwartung: Peers oder einer KI aktiv erklären (nicht passiv abfragen lassen).",badge:"gut",warum:"Kobayashi 2019: tatsächliches Lehren g≈0,56; bloße Lehr-Absicht ohne Erklären wirkt kaum."},
+    {text:"Praktiziere adaptive Hilfesuche (Hinweise statt Lösungen) – auch bei der KI-Nutzung.",badge:"kann",warum:"Adaptive Hilfesuche ist mit besserer Leistung assoziiert; passive KI-Nutzung kann sogar schaden (Karabenick)."}]},
+ },
+ mittel:{
+  sek56:{intro:"Du tauschst dich schon aus. Mehr davon:",tips:[
+    {text:"Erklär anderen aktiv ein Thema – das zeigt dir sofort, was noch fehlt.",badge:"gut",warum:"Aktives Erklären deckt Lücken auf und festigt (Kobayashi 2019)."}]},
+  sek78:{intro:"Solider Austausch. Tipp:",tips:[
+    {text:"Erklär regelmäßig – auch einer KI – und lass dich danach abfragen.",badge:"gut",warum:"Echtes Erklären (nicht nur Lesen) ist der wirksame Kern."}]},
+  sek910:{intro:"Guter Austausch. Feinschliff:",tips:[
+    {text:"Achte darauf, dass gemeinsames Lernen echtes Abfragen enthält, nicht nur Wiederholen.",badge:"gut",warum:"Retrieval im Gruppenkontext nutzt den Testing-Effekt."}]},
+  sek2:{intro:"Solide soziale Strategie. Ausbau:",tips:[
+    {text:"Strukturiere Gruppenphasen um gegenseitiges Abfragen und Erklären statt um gemeinsames Lesen.",badge:"gut",warum:"Lehren + Retrieval kombinieren zwei belegte Effekte."}]},
+ },
+ hoch:{
+  sek56:{lob:"Du lernst gut mit anderen und fragst nach – super!",verstaerkung:"Erklär ruhig noch öfter – das macht dich sicherer."},
+  sek78:{lob:"Austausch und Hilfe holen sind Stärken von dir.",verstaerkung:"Achte darauf, dass echtes Erklären und Abfragen dabei sind."},
+  sek910:{lob:"Du nutzt soziale Lernressourcen sehr gut.",verstaerkung:"Halte den Anteil an echtem Erklären und gegenseitigem Abfragen hoch."},
+  sek2:{lob:"Deine soziale Lernstrategie ist ausgereift.",verstaerkung:"Maximiere den Effekt durch Lehr-Erwartung und gegenseitiges Retrieval."},
+ },
+},
+
+/* ── 8 ANTRIEB ────────────────────────────────────────── */
+gefuehle:{
+ niedrig:{
+  sek56:{intro:"Lernen fällt gerade schwer – das ist okay. Das kann helfen:",tips:[
+    {text:"Setz dir kleine Ziele, die du schaffst. Jeder kleine Erfolg macht das Zutrauen größer.",badge:"kann",warum:"Kleine Erfolge ('mastery experiences') sind die stärkste Quelle von Selbstvertrauen (Bandura)."},
+    {text:"Wenn du vor einer Arbeit Herzklopfen hast: sag dir 'Das macht mich wach und bereit' – statt 'ich muss mich beruhigen'.",badge:"kann",warum:"Aufregung als Energie umdeuten (statt sie wegzudrücken) verbesserte in Studien die Leistung (Jamieson u.a. 2010/2016)."}],
+   hilfe:"Wenn dich die Aufregung vor Arbeiten oft sehr stark belastet, sprich mit deinen Eltern, einer Lehrkraft, der du vertraust, oder der Beratung an deiner Schule. Du musst damit nicht allein klarkommen."},
+  sek78:{intro:"Antrieb und Druck sind gerade ein Thema. Das kann helfen:",tips:[
+    {text:"Setz dir kleine, erreichbare Ziele und nimm Teilerfolge bewusst wahr.",badge:"kann",warum:"Selbstwirksamkeit hängt mit Leistung zusammen; kleine Erfolge sind ihr stärkster Treiber (Bandura; Honicke & Broadbent 2016)."},
+    {text:"Deute Aufregung um: 'Mein schneller Puls macht mich leistungsbereit' statt 'beruhig dich'.",badge:"kann",warum:"Stress-Reappraisal (Aufregung = Energie) verbesserte Leistung und senkte Prüfungsangst (Jamieson u.a. 2016) – wirkt besser als 'ruhig bleiben'."}],
+   hilfe:"Wenn dich Prüfungsangst stark oder dauerhaft belastet, ist das nichts, womit du allein bleiben musst. Sprich mit einer Vertrauensperson, der Beratung oder Schulpsychologie an deiner Schule."},
+  sek910:{intro:"Beim Antrieb ist gerade Luft nach oben. Das kann helfen:",tips:[
+    {text:"Arbeite mit kleinen, erreichbaren Teilzielen und mach dir Fortschritte sichtbar.",badge:"kann",warum:"Mastery experiences sind die stärkste Quelle von Selbstwirksamkeit (Bandura)."},
+    {text:"Stress-Reappraisal: körperliche Aufregung als hilfreiche Energie deuten statt sie zu bekämpfen.",badge:"kann",warum:"Mehrfach repliziert für akute Prüfungssituationen (Jamieson u.a. 2010/2016); wirkt v.a. kurzfristig."},
+    {text:"Sei nach Fehlern freundlich zu dir ('Fehler gehören dazu') statt dich runterzumachen.",badge:"kann",warum:"Self-Compassion hängt mit weniger Aufschieben und besserem Umgang mit Rückschlägen zusammen (Sirois 2014)."}],
+   hilfe:"Bei starker oder anhaltender Prüfungs-/Versagensangst, Panik, körperlichen Symptomen oder Schlafproblemen: Wende dich an Schulpsychologie, schulische Beratung, Hausärzt:in oder eine Beratungsstelle. Das ist ein Zeichen von Stärke, nicht von Schwäche."},
+  sek2:{intro:"Beim Antrieb/Umgang mit Druck gibt es Ansatzpunkte. Das kann helfen:",tips:[
+    {text:"Nutze kleine, erreichbare Teilziele, um über Erfolgserlebnisse deine Selbstwirksamkeit zu stärken.",badge:"kann",warum:"Selbstwirksamkeit↔Leistung moderat korreliert (Honicke & Broadbent 2016); mastery experiences zentral."},
+    {text:"Stress-Reappraisal: Erregung als funktionale Leistungsbereitschaft umdeuten ('mein Körper mobilisiert') statt 'Ruhe erzwingen'.",badge:"kann",warum:"Jamieson u.a. 2010/2016: bessere Leistung, günstigere Stressphysiologie; Grenze: bei hoher Trait-Angst oft nicht ausreichend."},
+    {text:"Begegne Rückschlägen mit Selbstmitgefühl statt harscher Selbstkritik.",badge:"kann",warum:"Self-Compassion korreliert moderat negativ mit Prokrastination (Sirois 2014; Zhang u.a. 2023)."}],
+   hilfe:"Wichtig: Bei klinisch relevanter Prüfungs-/Versagensangst (Panik, körperliche Symptome, Schlafstörungen, Beeinträchtigung des Alltags) ersetzen solche Übungen keine Hilfe. Wende dich an Schulpsychologie, Beratung, Hausärzt:in oder eine psychotherapeutische Anlaufstelle."},
+ },
+ mittel:{
+  sek56:{intro:"Dein Antrieb ist okay – mal so, mal so. Tipp:",tips:[
+    {text:"Fang mit dem an, was dich interessiert – die Lust überträgt sich oft auf den Rest.",badge:"kann",warum:"Interesse fördert Motivation und Ausdauer."}]},
+  sek78:{intro:"Solider Antrieb mit Schwankungen. Tipp:",tips:[
+    {text:"Knüpf an dein Interesse an: Wo ein Thema dich packt, vertief genau das zuerst.",badge:"kann",warum:"Intrinsisches Interesse trägt über Nachbarthemen."}]},
+  sek910:{intro:"Antrieb grundsätzlich da. Ausbau:",tips:[
+    {text:"Verbinde unliebsame Themen mit interessanten Anknüpfungspunkten oder konkreten Zielen.",badge:"kann",warum:"Zielbindung und Interesse stützen die Volition."}]},
+  sek2:{intro:"Solide Motivation. Feinschliff:",tips:[
+    {text:"Stabilisiere den Antrieb über klare Ziele und bewusstes Anknüpfen an Interessensbereiche.",badge:"kann",warum:"Interesse und Zielklarheit sind motivational tragend."}]},
+ },
+ hoch:{
+  sek56:{lob:"Du traust dir was zu und bleibst dran – toll!",verstaerkung:"Nutz diese Motivation für die schwierigen Sachen und freu dich über Fortschritte."},
+  sek78:{lob:"Zutrauen und Interesse bringst du mit – starker Rückenwind.",verstaerkung:"Nutze die Motivationsphasen für den schwierigen Stoff und feier kleine Fortschritte bewusst."},
+  sek910:{lob:"Dein Antrieb ist eine echte Ressource.",verstaerkung:"Lenke ihn gezielt auf herausfordernde Inhalte und halte Erfolge sichtbar."},
+  sek2:{lob:"Du bringst stabiles Zutrauen und Interesse mit.",verstaerkung:"Nutze diese volitionalen Stärken gezielt für anspruchsvolle Lernphasen."},
+ },
+},
+
+};
+
+var BADGE_LABEL = { gut:"gut belegt", kann:"kann helfen", test:"zum Ausprobieren" };
+
+
+var FACH="Diese Tipps stammen vor allem aus der Forschung zum Lernen von Wissen und Verstehen. Für praktische, künstlerische oder gestalterische Fächer (Kunst, Musik, Sport, kreatives Schreiben) zählt zusätzlich: regelmäßiges, gezieltes Üben mit Feedback.";
+var LVL={niedrig:"Ansatzpunkt",mittel:"solide",hoch:"Stärke"};
+
+/* ── STATE ─────────────────────────────────────────────── */
+var stage="sek78";
+var answers=new Array(ITEMS.length).fill(0);
+var scores={};
+
+/* ── HELPERS ───────────────────────────────────────────── */
+function showSection(id){
+  ["s-intro","s-quiz","s-result"].forEach(function(s){
+    var el=document.getElementById(s);
+    if(el) el.hidden=(s!==id);
+  });
+}
+function showErr(msg){
+  var el=document.getElementById("errMsg");
+  if(!el) return;
+  el.textContent=msg||"";
+  el.style.display=msg?"block":"none";
+}
+function shuffle(a){
+  for(var i=a.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=a[i];a[i]=a[j];a[j]=t;
+  }
+  return a;
+}
+
+/* ── STAGE ─────────────────────────────────────────────── */
+function setStage(s){
+  stage=s;
+  document.querySelectorAll("#stageBar button").forEach(function(btn){
+    btn.classList.toggle("active",btn.getAttribute("data-stage")===s);
+  });
+}
+
+/* ── QUIZ ──────────────────────────────────────────────── */
+function startQuiz(){
+  answers=new Array(ITEMS.length).fill(0);
+  buildQuestions();
+  showSection("s-quiz");
+}
+
+function buildQuestions(){
+  var order=shuffle(ITEMS.map(function(_,i){return i;}));
+  var c=document.getElementById("qcard");
+  c.innerHTML="";
+  order.forEach(function(idx,pos){
+    var it=ITEMS[idx];
+    var txt=it[stage]||it.sek78;
+    var div=document.createElement("div");
+    div.className="q";
+    var dots="";
+    for(var v=1;v<=6;v++){
+      dots+='<label><input type="radio" name="q'+idx+'" value="'+v+'" data-idx="'+idx+'"><span class="dot">'+v+"</span></label>";
+    }
+    div.innerHTML='<div class="num">Frage '+(pos+1)+' von '+ITEMS.length+'</div>'
+      +'<div class="txt">'+txt+'</div>'
+      +'<div class="likert">'+dots+'</div>'
+      +'<div class="lik-leg"><span>trifft gar nicht zu</span><span>trifft voll zu</span></div>';
+    c.appendChild(div);
+  });
+  updateProgress();
+}
+
+function updateProgress(){
+  var done=answers.filter(function(a){return a>0;}).length;
+  document.getElementById("bar").style.width=(done/ITEMS.length*100)+"%";
+  var all=done===ITEMS.length;
+  document.getElementById("evalBtn").disabled=!all;
+  document.getElementById("hint").textContent=
+    all?"Alle Fragen beantwortet – du kannst dein Profil ansehen."
+       :(done+" von "+ITEMS.length+" beantwortet");
+}
+
+/* ── SCORING ───────────────────────────────────────────── */
+function computeScores(){
+  var by={};
+  ACHSEN.forEach(function(a){by[a.id]=[];});
+  ITEMS.forEach(function(it,i){
+    var v=answers[i];
+    if(it.invert) v=7-v;
+    by[it.achse].push(v);
+  });
+  var out={};
+  Object.keys(by).forEach(function(id){
+    var arr=by[id];
+    var m=arr.reduce(function(a,b){return a+b;},0)/arr.length;
+    out[id]=Math.round((m-1)/5*100);
+  });
+  return out;
+}
+function level(s){return s<45?"niedrig":s<70?"mittel":"hoch";}
+
+/* ── EVALUATE ──────────────────────────────────────────── */
+function evaluate(){
+  showErr("");
+  try { scores=computeScores(); } 
+  catch(e){ showErr("Fehler bei Berechnung: "+e.message); return; }
+  showSection("s-result");
+  try { buildSpiderSVG(); } catch(e){ console.error("spider",e); }
+  try { buildRecs(); } catch(e){ console.error("recs",e); }
+  try {
+    var fn=document.getElementById("fachNote");
+    if(fn){ fn.innerHTML="<strong>Kurz zur Einordnung:</strong> "+FACH; }
+  } catch(e){}
+}
+
+/* ── SVG SPIDER (createElementNS – no innerHTML for SVG) ─ */
+function buildSpiderSVG(){
+  var NS="http://www.w3.org/2000/svg";
+  var S=540, cx=S/2, cy=S/2+10, R=S*0.29, n=ACHSEN.length;
+  function ang(i){ return -Math.PI/2+i*2*Math.PI/n; }
+  function mk(tag,attrs){
+    var el=document.createElementNS(NS,tag);
+    Object.keys(attrs).forEach(function(k){ el.setAttribute(k,String(attrs[k])); });
+    return el;
+  }
+  var svg=mk("svg",{"viewBox":"0 0 "+S+" "+S,"style":"max-width:100%;height:auto"});
+  svg.appendChild(mk("rect",{"width":S,"height":S,"fill":"#FFFFFF"}));
+
+  // rings + spokes
+  [.25,.5,.75,1].forEach(function(f){
+    var pts=[];
+    for(var i=0;i<=n;i++) pts.push((cx+Math.cos(ang(i))*R*f).toFixed(1)+","+(cy+Math.sin(ang(i))*R*f).toFixed(1));
+    svg.appendChild(mk("polygon",{"points":pts.join(" "),"fill":"none","stroke":"#DDE1E7","stroke-width":"1.2"}));
+  });
+  for(var i=0;i<n;i++){
+    svg.appendChild(mk("line",{"x1":cx.toFixed(1),"y1":cy.toFixed(1),
+      "x2":(cx+Math.cos(ang(i))*R).toFixed(1),"y2":(cy+Math.sin(ang(i))*R).toFixed(1),
+      "stroke":"#DDE1E7","stroke-width":"1.2"}));
+  }
+
+  // data polygon
+  var polyPts=ACHSEN.map(function(a,i){
+    var f=scores[a.id]/100;
+    return (cx+Math.cos(ang(i))*R*f).toFixed(1)+","+(cy+Math.sin(ang(i))*R*f).toFixed(1);
+  }).join(" ");
+  svg.appendChild(mk("polygon",{"points":polyPts,"fill":"#0E8C9A","fill-opacity":"0.18","stroke":"#0E8C9A","stroke-width":"2.4"}));
+
+  // dots + labels
+  for(var i=0;i<n;i++){
+    var a=ACHSEN[i], f=scores[a.id]/100;
+    var px=(cx+Math.cos(ang(i))*R*f).toFixed(1);
+    var py=(cy+Math.sin(ang(i))*R*f).toFixed(1);
+    svg.appendChild(mk("circle",{"cx":px,"cy":py,"r":"4.5","fill":a.farbe,"stroke":"#FFFFFF","stroke-width":"2"}));
+    var lx=(cx+Math.cos(ang(i))*(R+40)).toFixed(1);
+    var ly1=(cy+Math.sin(ang(i))*(R+40)-9).toFixed(1);
+    var ly2=(cy+Math.sin(ang(i))*(R+40)+9).toFixed(1);
+    var cosv=Math.cos(ang(i));
+    var ta=Math.abs(cosv)<0.3?"middle":(cosv>0?"start":"end");
+    var t1=mk("text",{"x":lx,"y":ly1,"text-anchor":ta,"font-family":"Georgia,serif","font-size":"15","font-weight":"600","fill":"#23272E"});
+    t1.textContent=a.kurz;
+    svg.appendChild(t1);
+    var t2=mk("text",{"x":lx,"y":ly2,"text-anchor":ta,"font-family":"ui-sans-serif,sans-serif","font-size":"13","font-weight":"700","fill":a.farbe});
+    t2.textContent=String(scores[a.id]);
+    svg.appendChild(t2);
+  }
+
+  var wrap=document.getElementById("spiderWrap");
+  while(wrap.firstChild) wrap.removeChild(wrap.firstChild);
+  wrap.appendChild(svg);
+}
+
+/* ── RECS ──────────────────────────────────────────────── */
+function buildRecs(){
+  var wrap=document.getElementById("recs");
+  wrap.innerHTML="";
+  var sorted=ACHSEN.slice().sort(function(a,b){return scores[a.id]-scores[b.id];});
+  sorted.forEach(function(a){
+    var sc=scores[a.id], lv=level(sc);
+    var node=TIPPS[a.id][lv][stage]||TIPPS[a.id][lv].sek78;
+    var div=document.createElement("div");
+    div.className="rec";
+    div.style.setProperty("--ac",a.farbe);
+
+    // Kopf
+    var h4=document.createElement("h4");
+    h4.appendChild(document.createTextNode(a.name+" "));
+    var sp=document.createElement("span"); sp.className="lv"; sp.textContent=LVL[lv];
+    h4.appendChild(sp);
+    div.appendChild(h4);
+
+    // Score-Balken
+    var bar=document.createElement("div"); bar.className="sbar";
+    var bi=document.createElement("i"); bi.style.cssText="width:"+sc+"%;background:"+a.farbe;
+    bar.appendChild(bi); div.appendChild(bar);
+
+    if(lv==="hoch"){
+      // Lob + Verstärkung statt Tipp-Liste
+      var lob=document.createElement("div"); lob.className="lob";
+      lob.appendChild(document.createTextNode(node.lob));
+      var plus=document.createElement("span"); plus.className="plus";
+      plus.textContent=node.verstaerkung;
+      lob.appendChild(plus);
+      div.appendChild(lob);
+    } else {
+      // Intro
+      var intro=document.createElement("div"); intro.className="intro";
+      intro.textContent=node.intro;
+      div.appendChild(intro);
+      // Tipps mit Aufklapper
+      node.tips.forEach(function(t){
+        var tip=document.createElement("div"); tip.className="tip";
+        var tx=document.createElement("div"); tx.className="tx"; tx.textContent=t.text;
+        tip.appendChild(tx);
+        var det=document.createElement("details");
+        var sum=document.createElement("summary");
+        sum.setAttribute("data-b",t.badge);
+        sum.textContent="Warum dieser Tipp?";
+        det.appendChild(sum);
+        var w=document.createElement("div"); w.className="warum";
+        var bn=document.createElement("span"); bn.className="bname";
+        bn.textContent=BADGE_LABEL[t.badge]+": ";
+        w.appendChild(bn);
+        w.appendChild(document.createTextNode(t.warum));
+        det.appendChild(w);
+        tip.appendChild(det);
+        div.appendChild(tip);
+      });
+      // Hilfe-Hinweis (nur gefuehle/niedrig)
+      if(node.hilfe){
+        var hb=document.createElement("div"); hb.className="hilfe";
+        var hs=document.createElement("strong"); hs.textContent="Gut zu wissen: ";
+        hb.appendChild(hs);
+        hb.appendChild(document.createTextNode(node.hilfe));
+        div.appendChild(hb);
+      }
+    }
+    wrap.appendChild(div);
+  });
+}
+
+/* ── EXPORTS ───────────────────────────────────────────── */
+function exportPNG(){
+  var svgEl=document.querySelector("#spiderWrap svg");
+  if(!svgEl){ showErr("Kein Diagramm vorhanden."); return; }
+  try{
+    var data=new XMLSerializer().serializeToString(svgEl);
+    var img=new Image();
+    img.onload=function(){
+      var cv=document.createElement("canvas");
+      cv.width=540; cv.height=540;
+      var ctx=cv.getContext("2d");
+      ctx.fillStyle="#FFFFFF"; ctx.fillRect(0,0,540,540);
+      ctx.drawImage(img,0,0);
+      var a=document.createElement("a");
+      a.href=cv.toDataURL("image/png");
+      a.download="Lernstrategien-Profil.png";
+      a.click();
+    };
+    img.onerror=function(){ showErr("PNG-Export in dieser Vorschau nicht möglich – lokal öffnen."); };
+    img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(data);
+  }catch(e){ showErr("PNG-Export: "+e.message); }
+}
+
+function loadScript(src,cb){
+  var s=document.createElement("script");
+  s.src=src;
+  s.onload=function(){ cb(null); };
+  s.onerror=function(){ cb(new Error("CDN nicht erreichbar")); };
+  document.head.appendChild(s);
+}
+function exportPDF(){
+  if(window.jspdf){ buildPDF(); return; }
+  loadScript("https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js",function(err){
+    if(err){ showErr("PDF-Export hier nicht verfügbar. Lokal öffnen oder Druckdialog (Strg+P) nutzen."); return; }
+    buildPDF();
+  });
+}
+function buildPDF(){
+  try{
+    var jsPDF=window.jspdf.jsPDF;
+    var doc=new jsPDF({unit:"mm",format:"a4"});
+    var W=210,M=18,y=20;
+    doc.setFillColor(14,140,154); doc.rect(0,0,W,6,"F");
+    doc.setTextColor(35,39,46); doc.setFont("times","bold"); doc.setFontSize(20);
+    doc.text("Mein Lernstrategien-Profil",M,y); y+=8;
+    doc.setFont("times","italic"); doc.setFontSize(10.5); doc.setTextColor(90,80,72);
+    doc.text("Selbsteinschaetzung - kein Test, keine Diagnose.",M,y); y+=10;
+
+    var svgEl=document.querySelector("#spiderWrap svg");
+    var svgData=new XMLSerializer().serializeToString(svgEl);
+    var imgEl=new Image();
+    imgEl.onload=function(){
+      var cv=document.createElement("canvas"); cv.width=540; cv.height=540;
+      var ctx=cv.getContext("2d");
+      ctx.fillStyle="#FFFFFF"; ctx.fillRect(0,0,540,540);
+      ctx.drawImage(imgEl,0,0);
+      var iW=110,iH=110;
+      doc.addImage(cv.toDataURL("image/png"),"PNG",(W-iW)/2,y,iW,iH); y+=iH+6;
+      doc.setFont("times","bold"); doc.setFontSize(13); doc.setTextColor(35,39,46);
+      doc.text("Was du konkret ausprobieren kannst",M,y); y+=7;
+      doc.setFontSize(10.5);
+      var sorted=ACHSEN.slice().sort(function(a,b){return scores[a.id]-scores[b.id];});
+      sorted.forEach(function(a){
+        var sc=scores[a.id],lv=level(sc);
+        var node=TIPPS[a.id][lv][stage]||TIPPS[a.id][lv].sek78;
+        if(y>262){doc.addPage();y=20;}
+        doc.setFont("times","bold"); doc.setTextColor(35,39,46);
+        doc.text(a.name+"  ("+sc+"/100 - "+LVL[lv]+")",M,y); y+=5;
+        doc.setFont("times","normal"); doc.setTextColor(70,62,56);
+        var lines=[];
+        if(lv==="hoch"){
+          lines.push(node.lob+" "+node.verstaerkung);
+        } else {
+          node.tips.forEach(function(t){
+            lines.push("\u2022 "+t.text+"  ["+BADGE_LABEL[t.badge]+"]");
+          });
+          if(node.hilfe) lines.push("Hinweis: "+node.hilfe);
+        }
+        lines.forEach(function(ln){
+          doc.splitTextToSize(ln,W-2*M).forEach(function(l){
+            if(y>278){doc.addPage();y=20;} doc.text(l,M,y); y+=4.6;
+          });
+        });
+        y+=3;
+      });
+      doc.save("Lernstrategien-Profil.pdf");
+    };
+    imgEl.onerror=function(){ showErr("PDF: SVG konnte nicht gerendert werden."); };
+    imgEl.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svgData);
+  }catch(e){ showErr("PDF-Export: "+e.message); }
+}
+
+/* ── BOOT: alle Events per addEventListener ─────────────── */
+document.addEventListener("DOMContentLoaded",function(){
+
+  document.getElementById("startBtn").addEventListener("click",startQuiz);
+  document.getElementById("backBtn").addEventListener("click",function(){ showSection("s-intro"); });
+  document.getElementById("evalBtn").addEventListener("click",evaluate);
+  document.getElementById("pngBtn").addEventListener("click",exportPNG);
+  document.getElementById("pdfBtn").addEventListener("click",exportPDF);
+  document.getElementById("restartBtn").addEventListener("click",function(){
+    answers=new Array(ITEMS.length).fill(0);
+    showSection("s-intro");
+  });
+
+  // Stage buttons
+  document.querySelectorAll("#stageBar button").forEach(function(btn){
+    btn.addEventListener("click",function(){
+      setStage(this.getAttribute("data-stage"));
+    });
+  });
+
+  // Radio event delegation on qcard
+  document.getElementById("qcard").addEventListener("change",function(e){
+    var t=e.target;
+    if(t && t.type==="radio"){
+      var idx=parseInt(t.getAttribute("data-idx"),10);
+      var val=parseInt(t.value,10);
+      if(!isNaN(idx) && !isNaN(val)){
+        answers[idx]=val;
+        updateProgress();
+      }
+    }
+  });
+
+});
+</script>
+</body>
+</html>
